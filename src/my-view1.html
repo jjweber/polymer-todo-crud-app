@@ -1,0 +1,94 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="shared-styles.html">
+
+
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+
+<link rel="import" href="../bower_components/paper-styles/color.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+<!--
+<link rel="import" href="../bower_components/paper-date-picker/paper-date-picker.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+-->
+
+<custom-style>
+  <style is="custom-style" include="demo-pages-shared-styles">
+    .vertical-section-container {
+      max-width: 500px;
+    }
+    paper-button {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  </style>
+</custom-style>
+
+<dom-module id="my-view1">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+      .vertical-section-container {
+        max-width: 500px;
+      }
+      paper-button {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    </style>
+
+
+    <div class="card">
+        <div class="circle">1</div>
+        <h1>ToDo List</h1>
+        <paper-input label="text input"></paper-input>
+        <paper-button toggles raised on-click="add"><iron-icon icon="add"></iron-icon> add todo</paper-button>
+
+
+        <template is="dom-repeat" items="{{todos}}">
+            <div>{{item.title}}</div>
+        </template>
+    </div>
+
+
+        <!--
+    <div class="vertical-section-container centered">
+        <paper-button toggles raised><iron-icon icon="favorite"></iron-icon>toggles</paper-button>
+    </div>
+        -->
+
+  </template>
+
+  <script>
+
+      Polymer({
+          is: "my-view1",
+          ready: function(e){
+              console.log("READY");
+
+              this.todos = [
+                  {title: 'Do Something 1'},
+                  {title: 'Get food'}
+              ];
+          },
+          add: function(e) {
+              console.log("Button fired..");
+          }
+      });
+  </script>
+</dom-module>
