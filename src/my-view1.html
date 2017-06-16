@@ -11,64 +11,82 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="shared-styles.html">
 
-
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
-
 <link rel="import" href="../bower_components/paper-styles/color.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
-
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
 <link rel="import" href="../bower_components/lss-paper-date-picker/lss-paper-date-picker.html">
-
-<!--
-<link rel="import" href="../bower_components/paper-date-picker/paper-date-picker.html">
-<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
--->
-
-<custom-style>
-  <style is="custom-style" include="demo-pages-shared-styles">
-    .vertical-section-container {
-      max-width: 500px;
-    }
-    paper-button {
-      margin-left: 10px;
-      margin-right: 10px;
-    }
-  </style>
-</custom-style>
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
 
 <dom-module id="my-view1">
-  <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
 
-        padding: 10px;
-      }
-      .vertical-section-container {
-        max-width: 500px;
-      }
-      paper-button {
-        margin-left: 10px;
-        margin-right: 10px;
-      }
-    </style>
+                padding: 10px;
+            }
+
+            .vertical-section-container {
+                max-width: 500px;
+            }
+
+            paper-button {
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+
+            .new-todo-wrapper {
+                border: 1px solid #90A4AE;
+                border-radius: 3px;
+                padding: 20px;
+            }
+
+            paper-button {
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+
+            div.item {
+                padding: 10px;
+                border-bottom: 2px solid #000;
+            }
+        </style>
 
 
-    <div class="card">
-        <div class="circle">1</div>
-        <h1>ToDo List</h1>
+        <div class="card">
+            <div class="circle">1</div>
+            <h1>ToDo List</h1>
 
-        <paper-input label="text input"></paper-input>
-        <lss-paper-date-picker date-string="2012-03-04" date="{{datePicked}}"></lss-paper-date-picker>
+            <div class="new-todo-wrapper">
+                <form is="iron-form" id="newToDoForm" method="post">
+                    <input value="{{hostValue::input}}">
+                    <paper-input id="testInput" bind-value="{{test}}" value="{{test}}" label="Sweet Label"></paper-input>
 
-        <paper-button toggles raised on-click="add"><iron-icon icon="add"></iron-icon> add todo</paper-button>
+                    <paper-input value="{{newTitle::input}}"></paper-input>
+                    <lss-paper-date-picker date-string="2012-03-04" date="{{newDate}}"></lss-paper-date-picker>
+                    <paper-button toggles raised on-click="add">
+                        <iron-icon icon="add"></iron-icon>
+                        add todo
+                    </paper-button>
+                </form>
+            </div>
 
+            <iron-list items="[[todos]]" as="item">
+                <template>
+                    <div class="item">
+                        <b>#[[index]] - [[item.title]]</b>
+                    </div>
+                </template>
+            </iron-list>
 
-        <template is="dom-repeat" items="{{todos}}">
-            <div>{{item.title}}</div>
-        </template>
-    </div>
+            <!--
+            <template is="dom-repeat" items="{{todos}}">
+                <div>{{item.title}}</div>
+            </template>
+            -->
+        </div>
 
 
         <!--
@@ -77,23 +95,56 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </div>
         -->
 
-  </template>
+    </template>
 
-  <script>
+    <script>
 
-      Polymer({
-          is: "my-view1",
-          ready: function(e){
-              console.log("READY");
+        Polymer({
+            is: "my-view1",
 
-              this.todos = [
-                  {title: 'Do Something 1'},
-                  {title: 'Get food'}
-              ];
-          },
-          add: function(e) {
-              console.log("Button fired..");
-          }
-      });
-  </script>
+            properties: {
+                'newTitle': {
+                    type: String,
+                    reflectToAttribute: true,
+                    value: null
+                },
+                'hostValue': {
+                    type: String,
+                    value: null
+                },
+                'test': {
+                    type: String,
+                    reflectToAttribute: true,
+                    value: "",
+                    notify: true
+                },
+                'newDate': {
+                    type: String,
+                    value: null
+                }
+            },
+
+            ready: function (e) {
+                console.log("READY");
+
+                //this.newItem = {title: '', date: ''};
+
+                this.todos = [
+                    {title: 'Do Something 1', date: '12-31-17'},
+                    {title: 'Get food', date: '07-18-17'}
+                ];
+            },
+            add: function () {
+                console.log(this.hostValue);
+                console.log(this.test);
+            }
+        });
+
+        /*
+        newToDoForm.addEventListener('iron-form-submit', function(event) {
+            var data = JSON.stringify(event.detail);
+            console.log("Data: ", data);
+        });
+        */
+    </script>
 </dom-module>
